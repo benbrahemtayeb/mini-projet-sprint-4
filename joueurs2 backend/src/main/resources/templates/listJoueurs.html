@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<head><meta charset="utf-8"><title>Liste des Joueurs</title></head>
+<body>
+<div th:replace="template"></div>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header"><h5>Liste des Joueurs</h5></div>
+        <div class="card-body">
+            <table class="table table-striped table-bordered">
+                <tr class="table-dark">
+                    <th>ID</th><th>Nom Joueur</th><th>Prix (Million €)</th><th>Date Transfert</th><th>Equipe</th><th>Action</th>
+                </tr>
+                <tr th:each="p:${Joueurs.content}">
+                    <td th:text="${p.idJoueur}"></td>
+                    <td th:text="${p.nomJoueur}"></td>
+                    <td th:text="${p.prixJoueur}"></td>
+                    <td th:text="${#dates.format(p.dateTransfert, 'dd/MM/yyyy')}"></td>
+					<td th:if="${!#strings.isEmpty(p.equipe)}" th:text="${p.equipe.nomEquipe}"></td>
+					<td th:if="${#strings.isEmpty(p.equipe)}" th:text="'Pas d\'Equipe'"></td>
+					<td>
+					    <a sec:authorize="hasAnyAuthority('ADMIN', 'AGENT')"
+					       class="btn btn-warning btn-sm"
+					       th:href="@{modifierJoueur(id=${p.idJoueur})}">Modifier</a>
+					    <a sec:authorize="hasAuthority('ADMIN')"
+					       class="btn btn-danger btn-sm"
+					       onclick="return confirm('Etes-vous sûr ?')"
+					       th:href="@{supprimerJoueur(id=${p.idJoueur}, page=${currentPage}, size=${size})}">
+					        Supprimer
+					    </a>
+					</td>
+					
+					
+                </tr>
+            </table>
+            <ul class="nav nav-pills">
+                <li th:each="page,status:${pages}">
+                    <a th:class="${status.index == currentPage ? 'btn btn-primary m-1' : 'btn btn-outline-primary m-1'}"
+                       th:href="@{ListJoueurs(page=${status.index}, size=${size})}"
+                       th:text="${status.index}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
