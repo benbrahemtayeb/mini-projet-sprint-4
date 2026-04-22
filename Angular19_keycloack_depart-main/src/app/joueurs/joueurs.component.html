@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th colspan="5">Liste des Joueurs</th>
+                    </tr>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Prix</th>
+                        <th>Date Transfert</th>
+                        <th>Durée Contrat</th>
+                    </tr>
+                </thead>
+                @for (joueur of joueurs; track joueur) {
+                <tbody>
+                    <tr>
+                        <td>{{joueur.idJoueur}}</td>
+                        <td>{{joueur.nomJoueur}}</td>
+                        <td>{{joueur.prixJoueur}}</td>
+                        <td>{{joueur.dateTransfert | date:'dd/MM/yyyy'}}</td>
+                        <td>{{joueur.dureContrat}}</td>
+                    </tr>
+                </tbody>
+                }
+            </table>
+        </div>
+    </div>
+</div>
